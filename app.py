@@ -48,24 +48,6 @@ def index():
     return flask.redirect("/index.html")
 
 
-
-####################
-# IGNORE THIS
-
-# Make the logging of flask more readable
-import flask.logging
-import logging
-app.logger.removeHandler(flask.logging.default_handler)
-_stream_handler = logging.StreamHandler()
-_stream_handler.setFormatter(
-    logging.Formatter("[%(asctime)s] %(levelname)s in %(name)s: %(message)s"))
-_stream_handler.setLevel(logging.INFO)
-app.logger.addHandler(
-     _stream_handler)
-
-
-
-
 ###############################################################################
 #  Part 2: Database object and models
 
@@ -94,9 +76,6 @@ db = SQLAlchemy(app)
 class User(db.Model):
     """This class models users on our site"""
 
-    # This is a logger for debug purposes.
-    logger = app.logger.getChild("User")
-
     # Create a property that is a column in the user table in the database
     #  We also specify it as a primary key, and that it should automatically
     #  increment as new objects are created.
@@ -119,9 +98,6 @@ class User(db.Model):
         """Set the name of a user"""
         if isinstance(name, str):
             self.name = name
-        else:
-            self.logger.warning(f"set_name called with invalid argument name "
-                                f"of type {type(name)}")
 
     # This is an alternative way of using custom getters/setter with
     # transparancy to end-users
@@ -135,8 +111,6 @@ class User(db.Model):
         """Set the gender of a user"""
         if isinstance(gender, str) and gender in ["male", "female"]:
             self._gender = gender
-        else:
-            self.logger.warning("trying to set invalid gender")
 
     # This is a utility function that will be used later
     #  This allows our User object to be converted to a Python dictionary.
