@@ -200,7 +200,6 @@ class AllUserResource(Resource):
         # Return all the users
         return result
 
-
     # Provide a way to create new users
     def post(self):
         # Parse the arguments given
@@ -233,6 +232,7 @@ api.add_resource(AllUserResource, "/user")
 @app.cli.command("create-db")
 def create_db():
     db.create_all()
+
 
 @app.cli.command("drop-db")
 def drop_db():
