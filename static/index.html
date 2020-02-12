@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Demo</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous">
+</head>
+<body>
+
+<div class="container" id="app">
+    <form class="w-25 mx-auto bg-dark text-light rounded p-2 m-4" id="new_user">
+        <h3>New User</h3>
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" id="name" placeholder="Name"
+                   v-model="form.name"/>
+        </div>
+        <div class="form-group">
+            <label for="gender">Gender</label>
+            <select class="form-control" id="gender" v-model="form.gender">
+                <option value="" selected disabled hidden>Gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Submit</button>
+    </form>
+
+    <div class="w-50 mx-auto">
+        <h3 class="d-flex justify-content-between">
+            Users
+            <button class="btn btn-primary" id="refresh" onclick="refresh()">
+                Refresh
+            </button>
+        </h3>
+        <ul class="list-group">
+            <li class="list-group-item d-flex justify-content-between"
+                v-for="user in users">
+                {{ user.name }}
+                <span class="badge badge-info badge-pill">
+                    {{ user.gender }}
+                </span>
+            </li>
+        </ul>
+    </div>
+</div>
+
+
+<!-- Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+
+<!-- Vue.js JS -->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+<!-- User JS -->
+<script>
+    let vue = new Vue({
+        el: "#app",
+        data: {
+            users: [],
+            form: {
+                name: "",
+                gender: "",
+            },
+        }
+    });
+
+    let refresh = function () {
+        jQuery.getJSON("/api/v1/user", null, function (data) {
+            vue.users = data;
+        })
+    };
+
+    document.getElementById("new_user").onsubmit = function (e) {
+        e.preventDefault();
+
+        jQuery.ajax({
+            type: "POST",
+            url: "/api/v1/user",
+            data: JSON.stringify(vue.form),
+            contentType: "application/json"
+        }).done(function () {
+            refresh();
+        });
+    };
+
+    window.onload = function () {
+        refresh();
+    }
+
+
+</script>
+</body>
+</html>

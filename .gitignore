@@ -1,0 +1,13 @@
+# Ignore IntelliJ editor files
+.idea/
+
+# Ignore Python Virtual Environments
+.venv/
+venv/
+
+# Ignore Python Cache
+__pycache__
+
+# Ignore database file
+database.sqlite3
+
