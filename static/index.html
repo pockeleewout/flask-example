@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Demo</title>
 
     <!-- Bootstrap CSS -->
@@ -10,10 +11,10 @@
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
           crossorigin="anonymous">
 </head>
-<body>
+<body class="bg-dark text-light">
 
-<div class="container" id="app">
-    <form class="w-25 mx-auto bg-dark text-light rounded p-2 m-4" id="new_user">
+<div class="container-lg align-content-center" id="app">
+    <form class="mx-auto bg-secondary text-light rounded m-4 py-3 col-12 col-lg-3" id="new_user">
         <h3>New User</h3>
         <div class="form-group">
             <label for="name">Name</label>
@@ -31,7 +32,7 @@
         <button type="submit" class="btn btn-primary w-100">Submit</button>
     </form>
 
-    <div class="w-50 mx-auto">
+    <div class="mx-auto col-12 col-lg-6 p-0">
         <h3 class="d-flex justify-content-between">
             Users
             <button class="btn btn-primary" id="refresh" onclick="refresh()">
@@ -39,10 +40,10 @@
             </button>
         </h3>
         <ul class="list-group">
-            <li class="list-group-item d-flex justify-content-between"
+            <li class="list-group-item d-flex justify-content-between bg-secondary"
                 v-for="user in users">
                 {{ user.name }}
-                <span class="badge badge-info badge-pill">
+                <span class="badge badge-info badge-pill mb-auto">
                     {{ user.gender }}
                 </span>
             </li>
